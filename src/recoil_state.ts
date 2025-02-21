@@ -1,4 +1,5 @@
 import { atom, selector } from 'recoil';
+import { TodoItem, TodoStats } from './components/to-do-list/types';
 
 const textState = atom({
   key: 'textState', // 고유 ID
@@ -16,60 +17,58 @@ const charCountState = selector({
   },
 });
 
-// 리스트
-interface TodoItem {
-  text: string;
-  isComplete: boolean;
-}
-
+// 할 일 목록 (TodoList) 상태를 관리하는 atom
 const todoListState = atom<TodoItem[]>({
   key: 'TodoList',
-  default: [],
+  default: [], // 초기값: 빈 배열
 });
 
-// 필터
-const todoListFilterState = atom({
+// 현재 필터 상태를 관리하는 atom
+const todoListFilterState = atom<string>({
   key: 'todoListFilterState',
-  default: 'Show All',
+  default: 'Show All', // 초기값: "Show All" (모든 할 일 표시)
 });
 
-const filteredTodoListState = selector({
+// 필터된 할 일 목록을 반환하는 selector
+const filteredTodoListState = selector<TodoItem[]>({
   key: 'filteredTodoListState',
   get: ({ get }) => {
-    const filter = get(todoListFilterState);
-    const list = get(todoListState);
+    const filter = get(todoListFilterState); // 현재 필터 상태 가져오기
+    const list = get(todoListState); // 현재 할 일 목록 가져오기
 
+    // 필터 조건에 따라 할 일 목록을 필터링하여 반환
     switch (filter) {
-      case 'Show Completed':
+      case 'Show Completed': // 완료된 항목만 반환
         return list.filter((item) => item.isComplete);
-      case 'Show Uncompleted':
+      case 'Show Uncompleted': // 미완료 항목만 반환
         return list.filter((item) => !item.isComplete);
-      default:
+      default: // 기본적으로 모든 항목을 반환
         return list;
     }
   },
 });
 
-const todoListStatsState = selector({
+// 할 일 목록의 통계를 계산하는 selector
+const todoListStatsState = selector<TodoStats>({
   key: 'todoListStatsState',
   get: ({ get }) => {
-    const todoList = get(todoListState);
-    const totalNum = todoList.length;
-    const totalCompletedNum = todoList.filter((item) => item.isComplete).length;
-    let allText = '';
+    const todoList = get(todoListState); // 현재 할 일 목록 가져오기
+    const totalNum = todoList.length; // 전체 할 일 개수
+    const totalCompletedNum = todoList.filter((item) => item.isComplete).length; // 완료된 할 일 개수
+    let allText = ''; // 미완료된 모든 할 일 텍스트를 담을 변수
     // eslint-disable-next-line no-return-assign
     todoList.filter((item) => !item.isComplete).map((item) => (allText = `${allText} ${item.text}`));
-    const totalUncompletedNum = totalNum - totalCompletedNum;
-    const percentCompleted = totalNum === 0 ? 0 : totalCompletedNum / totalNum;
+    const totalUncompletedNum = totalNum - totalCompletedNum; // 미완료된 할 일 개수
+    const percentCompleted = totalNum === 0 ? 0 : totalCompletedNum / totalNum; // 완료된 비율 (0 ~ 1)
 
     return {
-      totalNum,
-      totalCompletedNum,
-      totalUncompletedNum,
-      percentCompleted,
-      allText,
+      totalNum, // 전체 개수
+      totalCompletedNum, // 완료된 개수
+      totalUncompletedNum, // 미완료 개수
+      percentCompleted, // 완료된 비율
+      allText, // 미완료된 할 일의 텍스트 목록
     };
   },
 });
 
-export { textState, charCountState, filteredTodoListState, todoListStatsState };
+export { textState, charCountState, todoListState, todoListFilterState, filteredTodoListState, todoListStatsState };

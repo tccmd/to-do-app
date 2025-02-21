@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { Text } from '@chakra-ui/react';
-import { charCountState } from '../recoil_state';
+import { charCountState } from '../../recoil_state';
 
 export default function CharacterCount(): React.ReactElement {
   // selector(charCountState) 리턴 값 사용

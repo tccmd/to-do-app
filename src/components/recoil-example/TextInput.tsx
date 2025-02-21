@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { Input, Text } from '@chakra-ui/react';
-import { textState } from '../recoil_state';
+import { textState } from '../../recoil_state';
 
 export default function TextInput(): React.ReactElement {
   // 'atom(textState)'에 대해 암묵적으로 구독되므로 '원자'가 업데이트 되면 컴포넌트가 다시 렌더링 된다.
