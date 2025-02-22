@@ -1,6 +1,9 @@
-import { Checkbox, Editable, EditableInput, EditablePreview, Flex, Text } from '@chakra-ui/react';
+import { Checkbox, Editable, EditableInput, EditablePreview, Flex, Text, useColorModeValue } from '@chakra-ui/react';
+import { Reorder, useDragControls, useMotionValue } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import { todoListState } from '../../recoil_state';
+import { ReorderIcon } from '../othder-component/Icon';
+import { useRaisedShadow } from '../othder-component/use-raised-shadow';
 import { TodoItem as TodoItemType } from './types';
 
 const replaceItemAtIndex = (arr: TodoItemType[], index: number, newValue: TodoItemType) => {
@@ -14,6 +17,7 @@ const removeItemAtIndex = (arr: TodoItemType[], index: number) => {
 export default function TodoItem({ item }: { item: TodoItemType }): React.ReactElement {
   const [todoList, setTodoList] = useRecoilState(todoListState);
   const index = todoList.findIndex((listItem) => listItem.id === item.id);
+  const hoverColor = useColorModeValue('gray.50', 'gray.800');
 
   const editItemText = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newList = replaceItemAtIndex(todoList, index, {
@@ -36,32 +40,43 @@ export default function TodoItem({ item }: { item: TodoItemType }): React.ReactE
     setTodoList(newList);
   };
 
+  const y = useMotionValue(0);
+  const boxShadow = useRaisedShadow(y);
+  const dragControls = useDragControls();
+
   return (
-    <Flex
-      gap={4}
-      _hover={{
-        bg: 'gray.50',
-      }}
-      px={6}
-      py={4}
-    >
-      <Checkbox
-        size="lg"
-        type="checkbox"
-        isChecked={item.isComplete}
-        onChange={toggleItemCompletion}
-        colorScheme="black"
-      />
-      <Flex flexDirection="column">
-        <Editable defaultValue={item.text} fontWeight="600">
-          <EditablePreview />
-          <EditableInput onChange={editItemText} />
-        </Editable>
-        <Text color="#6B7280">Due today at 5:00 PM</Text>
-      </Flex>
-      {/* <button type="button" onClick={deleteItem}>
+    <Reorder.Item value={item} id={item.text} style={{ boxShadow, y }} dragListener={false} dragControls={dragControls}>
+      <Flex
+        _hover={{
+          bg: hoverColor,
+        }}
+        px={6}
+        py={4}
+        width="100%"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Flex gap={4}>
+          <Checkbox
+            size="lg"
+            type="checkbox"
+            isChecked={item.isComplete}
+            onChange={toggleItemCompletion}
+            colorScheme="black"
+          />
+          <Flex flexDirection="column">
+            <Editable defaultValue={item.text} fontWeight="600">
+              <EditablePreview />
+              <EditableInput onChange={editItemText} />
+            </Editable>
+            <Text color="#6B7280">Due today at 5:00 PM</Text>
+          </Flex>
+        </Flex>
+        <ReorderIcon dragControls={dragControls} />
+        {/* <button type="button" onClick={deleteItem}>
             X
           </button> */}
-    </Flex>
+      </Flex>
+    </Reorder.Item>
   );
 }

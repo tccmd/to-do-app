@@ -4,7 +4,7 @@ import TodoItemCreator from '../to-do-list/TodoItemCreator';
 
 export default function Navbar(): React.ReactElement {
   return (
-    <Stack justify="flex-end" alignItems="center" direction="row" p={4}>
+    <Stack justify="flex-end" alignItems="center" direction="row" py={4} pl={10} pr={2}>
       <TodoItemCreator />
       <ColorModeSwitcher />
     </Stack>

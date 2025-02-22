@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { atom, selector } from 'recoil';
 import { TodoItem, TodoStats } from './components/to-do-list/types';
 
@@ -71,4 +72,12 @@ const todoListStatsState = selector<TodoStats>({
   },
 });
 
-export { textState, charCountState, todoListState, todoListFilterState, filteredTodoListState, todoListStatsState };
+export {
+  charCountState,
+  filteredTodoListState,
+  textState,
+  todoListFilterState,
+  todoListState,
+  todoListStatsState
+};
+
