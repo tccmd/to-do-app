@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { todoListState } from '../../recoil_state';
 import { TodoItem as TodoItemType } from './types';
 
-const replceItemAtIndex = (arr: TodoItemType[], index: number, newValue: TodoItemType) => {
+const replaceItemAtIndex = (arr: TodoItemType[], index: number, newValue: TodoItemType) => {
   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
 };
 
@@ -13,10 +13,10 @@ const removeItemAtIndex = (arr: TodoItemType[], index: number) => {
 
 export default function TodoItem({ item }: { item: TodoItemType }): React.ReactElement {
   const [todoList, setTodoList] = useRecoilState(todoListState);
-  const index = todoList.findIndex((listItem) => listItem === item);
+  const index = todoList.findIndex((listItem) => listItem.id === item.id);
 
   const editItemText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newList = replceItemAtIndex(todoList, index, {
+    const newList = replaceItemAtIndex(todoList, index, {
       ...item,
       text: e.target.value,
     });
@@ -24,7 +24,7 @@ export default function TodoItem({ item }: { item: TodoItemType }): React.ReactE
   };
 
   const toggleItemCompletion = () => {
-    const newList = replceItemAtIndex(todoList, index, {
+    const newList = replaceItemAtIndex(todoList, index, {
       ...item,
       isComplete: !item.isComplete,
     });
@@ -37,8 +37,21 @@ export default function TodoItem({ item }: { item: TodoItemType }): React.ReactE
   };
 
   return (
-    <Flex gap={4}>
-      <Checkbox type="checkbox" checked={item.isComplete} onChange={toggleItemCompletion} colorScheme="black" />
+    <Flex
+      gap={4}
+      _hover={{
+        bg: 'gray.50',
+      }}
+      px={6}
+      py={4}
+    >
+      <Checkbox
+        size="lg"
+        type="checkbox"
+        isChecked={item.isComplete}
+        onChange={toggleItemCompletion}
+        colorScheme="black"
+      />
       <Flex flexDirection="column">
         <Editable defaultValue={item.text} fontWeight="600">
           <EditablePreview />

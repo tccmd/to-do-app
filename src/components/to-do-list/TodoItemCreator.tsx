@@ -1,5 +1,5 @@
-import { AddIcon } from '@chakra-ui/icons';
-import { Button, Input } from '@chakra-ui/react';
+import { AddIcon, Search2Icon } from '@chakra-ui/icons';
+import { Button, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { todoListState } from '../../recoil_state';
@@ -32,25 +32,31 @@ export default function TodoItemCreator(): React.ReactElement {
 
   return (
     <>
-      <Input
-        type="text"
-        value={inputValue}
-        onChange={onChange}
-        variant="outline"
-        placeholder="Search tasks..."
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            addItem();
-          }
-        }}
-      />
+      <InputGroup>
+        <InputLeftElement pointerEvents="none">
+          <Search2Icon color="gray.300" />
+        </InputLeftElement>
+        <Input
+          type="text"
+          value={inputValue}
+          onChange={onChange}
+          variant="outline"
+          placeholder="Search tasks..."
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              addItem();
+            }
+          }}
+        />
+      </InputGroup>
       <Button
         onClick={addItem}
         leftIcon={<AddIcon boxSize={2} />}
         colorScheme="black"
         variant="solid"
-        size="sm"
-        minW="100px"
+        size="md"
+        minW="110px"
+        ml={2}
       >
         Add Task
       </Button>

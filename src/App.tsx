@@ -2,6 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { RecoilRoot } from 'recoil';
 import CommonLayout from './components/layout/CommonLayout';
 import { TodoTask } from './components/layout/TodoTask';
+import './style.css';
 import theme from './theme';
 
 export const App = (): React.ReactElement => (

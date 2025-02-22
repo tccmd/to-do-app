@@ -1,0 +1,21 @@
+hr {
+  border-color: rgba(0, 0, 0, 0.24) !important;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.125rem !important;
+  -webkit-text-stroke: 2px !important;
+  color: #5046e4;
+}
+
+.do {
+  padding-left: 0.5rem;
+}
+
+/* stack divier margin */
+.css-15nvrth {
+  margin: 0 !important;
+}
