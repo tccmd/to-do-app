@@ -29,16 +29,16 @@ export default function TodoList(): React.ReactElement {
         {todoList.length === 0 ? (
           <p>...</p>
         ) : (
-          <VStack divider={<StackDivider borderColor="gray.200" />} align="stretch" p="none">
-            <Reorder.Group axis="y" onReorder={handleReorder} values={todoList}>
+          <Reorder.Group axis="y" onReorder={handleReorder} values={todoList}>
+            <VStack divider={<StackDivider borderColor="gray.200" />} align="stretch" p="none">
               {todoList.map((todoItem: TodoItemType) => (
                 <TodoItem key={todoItem.id} item={todoItem} />
               ))}{' '}
               {/* {items.map((item) => (
                 <TodoItem key={item} item={item} />
               ))} */}
-            </Reorder.Group>
-          </VStack>
+            </VStack>
+          </Reorder.Group>
         )}
       </CardBody>
     </Card>
