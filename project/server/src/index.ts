@@ -1,20 +1,71 @@
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { ApolloServer } from 'apollo-server-express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import http from 'http';
 import 'reflect-metadata';
+import { buildSchema } from 'type-graphql';
 import { createDB } from './db/db-client';
+import { TodoResolver } from './resolvers/Todo';
 
 async function main() {
   dotenv.config();
   await createDB();
   const app = express();
-  const port = 3000;
 
-  app.get('/', (req, res) => {
-    res.send('Hello World!');
+  // CORS 설정 (SSE 경로에만 적용)
+  app.use(
+    cors({
+      origin: [
+        'http://localhost:3000', // 클라이언트 주소 추가
+        'https://studio.apollographql.com', // Apollo Studio 허용
+        // 추가 허용할 주소들
+      ],
+      credentials: true,
+    }),
+  );
+
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [TodoResolver],
+    }),
+    plugins: [ApolloServerPluginLandingPageLocalDefault()],
   });
 
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+  await apolloServer.start();
+  apolloServer.applyMiddleware({
+    app,
+    cors: {
+      // 아폴로 스튜디오를 GraphQL 테스트 용도로 활용하기 위해 https://studio.apollographql.com도 허용하도록 구성
+      origin: [
+        'http://localhost:3000',
+        'https://studio.apollographql.com',
+        'http://ghibli-graphql-cli-bucket.s3-website.ap-northeast-2.amazonaws.com',
+        'http://ghibli-graphql-cli-vercel-bucket.s3-website.ap-northeast-2.amazonaws.com',
+        'https://web-ashy-alpha.vercel.app',
+        'https://tccmd.site',
+        'https://www.tccmd.site',
+        'https://ghibli.tccmd.site',
+      ],
+      credentials: true,
+    },
+  });
+  
+
+  const httpServer = http.createServer(app);
+
+  httpServer.listen(process.env.PORT || 4000, () => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`
+            server started on => http://localhost:4000
+            graphql playground => http://localhost:4000/graphql
+            `);
+    } else {
+      console.log(`
+            Production server Started...
+            `);
+    }
   });
 }
 

@@ -8,12 +8,12 @@ export class Todo extends BaseEntity {
   @Field(() => Int)
   id: number;
 
-  @Column({ comment: 'Todo 텍스트' })
+  @Column({ comment: 'Todo 텍스트', nullable: false })
   @Field({ description: 'Todo 텍스트' })
   text: string;
 
   @Column({ comment: '완료' })
-  @Field({ description: '완료' })
+  @Field({ description: '완료', defaultValue: false })
   isCompleted: boolean;
 
   @CreateDateColumn({ comment: '생성 일자' })
