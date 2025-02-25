@@ -2,8 +2,9 @@ import { Card, CardBody, Flex, Progress, SimpleGrid, Stack, Text, VStack } from 
 import { useRecoilValue } from 'recoil';
 import { todoListStatsState } from '../../recoil_state';
 
+
 export default function ProgressOverview(): React.ReactElement {
-  const { totalNum, totalCompletedNum, totalUncompletedNum, percentCompleted, allText } =
+  const { totalNum, totalCompletedNum, totalUncompletedNum, percentCompleted } =
     useRecoilValue(todoListStatsState);
 
   const formattedPercentCompleted = Math.round(percentCompleted * 100);
@@ -19,7 +20,15 @@ export default function ProgressOverview(): React.ReactElement {
           <Text fontWeight={500}>{formattedPercentCompleted}%</Text>
         </Flex>
         <Stack spacing={5} pb={4}>
-          <Progress colorScheme="black" size="md" value={formattedPercentCompleted} borderRadius="xl" />
+          <Progress
+            colorScheme="black"
+            size="md"
+            value={formattedPercentCompleted}
+            borderRadius="xl"
+            // sx={{
+            //   transition: 'width 2s ease-out',
+            // }}
+          />
         </Stack>
         <SimpleGrid columns={3} spacing={4}>
           <VStack height="80px" justifyContent="center">

@@ -1,0 +1,3 @@
+mutation UpdatePriority($priority: Float!, $updatePriorityId: Float!) {
+  updatePriority(priority: $priority, id: $updatePriorityId)
+}

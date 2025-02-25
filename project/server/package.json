@@ -20,11 +20,12 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon  --watch *.ts --exec ts-node src/index.ts",
-    "clean": "rm -rf node_modules yarn.lock && yarn"
+    "clean": "rm -rf node_modules yarn.lock && yarn cache clean && yarn"
   },
-  "devDependencies": {
+  "devDependenciesnvm use 20": {
     "@types/express": "4.17.14",
     "nodemon": "^3.1.9",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }

@@ -3,7 +3,7 @@ import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql';
 import { Todo } from '../entities/Todo';
 
 @InputType()
-class CreateTodoText {
+class AddTodoInput {
   @Field({ description: 'Todo 텍스트 인풋 데이터' })
   @IsString()
   text: string;
@@ -24,26 +24,31 @@ class UpdateTodoInput {
 @Resolver(Todo)
 export class TodoResolver {
   @Query(() => [Todo])
-  async Todos(): Promise<Todo[]> {
+  async todos(): Promise<Todo[]> {
     return Todo.find();
   }
 
-  @Mutation(() => Boolean)
-  async createTodoText(@Arg('todoTextInput') todoTextInput: CreateTodoText): Promise<boolean> {
+  @Query(() => Todo)
+  async todo(@Arg('id') id: number): Promise<Todo | null> {
+    return Todo.findOne({ where: { id } });
+  }
+
+  @Mutation(() => Todo)
+  async addTodo(@Arg('todoTextInput') todoTextInput: AddTodoInput): Promise<Todo | null> {
     try {
       const { text } = todoTextInput;
 
-      const newTodo = Todo.create({ text });
-      await Todo.insert(newTodo);
+      const newTodo = await Todo.create({ text }).save();
+      console.log(newTodo);
 
-      return true;
+      return newTodo;
     } catch (e) {
-      return false;
+      return null;
     }
   }
 
   @Mutation(() => Boolean)
-  async UpdateTodo(@Arg('UpdateTodoInput') updateTodoInput: UpdateTodoInput): Promise<boolean> {
+  async updateTodo(@Arg('updateTodoInput') updateTodoInput: UpdateTodoInput): Promise<boolean> {
     try {
       const { id, text, isCompleted } = updateTodoInput;
       // 조회
@@ -56,11 +61,13 @@ export class TodoResolver {
       if (text) {
         todo.text = text;
       }
-      if (isCompleted) {
+      if (isCompleted != null) {
         todo.isCompleted = isCompleted;
       }
 
-      todo.save();
+      console.log(updateTodoInput);
+
+      await todo.save();
       return true;
     } catch (e) {
       return false;
@@ -77,6 +84,23 @@ export class TodoResolver {
       }
 
       await Todo.remove(todo);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async updatePriority(@Arg('id') id: number, @Arg('priority') priority: number): Promise<boolean> {
+    try {
+      const todo = await Todo.findOne({ where: { id } });
+
+      if (!todo) {
+        throw new Error('Todo not found');
+      }
+
+      todo.priority = priority;
+      await todo.save();
       return true;
     } catch (e) {
       return false;

@@ -1,0 +1,10 @@
+query Todo($todoId: Float!) {
+  Todo(id: $todoId) {
+    id
+    text
+    isCompleted
+    priority
+    createdAt
+    updatedAt
+  }
+}

@@ -1,0 +1,9 @@
+mutation AddTodo($todoTextInput: AddTodoInput!) {
+  AddTodo(todoTextInput: $todoTextInput) {
+    id
+    text
+    isCompleted
+    priority
+    createdAt
+  }
+}

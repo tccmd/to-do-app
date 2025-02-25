@@ -2,7 +2,9 @@
 export interface TodoItem {
   id: number;
   text: string; // 할 일의 내용
-  isComplete: boolean; // 완료 여부
+  isCompleted: boolean; // 완료 여부
+  priority: number; // 우선 순위
+  createdAt: string;
 }
 
 export interface TodoStats {

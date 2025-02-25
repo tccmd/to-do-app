@@ -38,26 +38,23 @@ function RadioCard({ children, ...props }: RadioCardProps): React.ReactElement {
   );
 }
 
-function TodoListFilters(): React.ReactElement {
+export default function TodoListFilters(): React.ReactElement {
   const [filter, setFilter] = useRecoilState(todoListFilterState);
-
-  // const updateFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const { value } = event.target;
-  //   setFilter(value);
-  // };
 
   const options: string[] = ['Show All', 'Show Completed', 'Show Uncompleted'];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'framework',
-    defaultValue: 'Show All',
-    onChange: (value) => setFilter(value),
+    defaultValue: localStorage.getItem('todoFilter') || filter,
+    onChange: (value) => {
+      setFilter(value);
+      localStorage.setItem('todoFilter', value);
+    },
   });
 
   const group = getRootProps();
 
   return (
-    <>
       <VStack {...group} p={4}>
         {options.map((value) => {
           const radio = getRadioProps({ value });
@@ -68,27 +65,5 @@ function TodoListFilters(): React.ReactElement {
           );
         })}
       </VStack>
-      {/* <AsideButton>
-        <HamburgerIcon />
-        <Text>All</Text>
-      </AsideButton>
-      <AsideButton>
-        <CalendarIcon />
-        <Text>Uncompleted</Text>
-      </AsideButton>
-      <AsideButton>
-        <CheckCircleIcon />
-        <Text>Completed</Text>
-      </AsideButton> */}
-      {/* Filter:
-      <select value={filter} onChange={updateFilter}>
-        <option value="Show All">All</option>
-        <option value="Show Completed">Completed</option>
-        <option value="Show Uncompleted">Uncompleted</option>
-      </select>
-      <p> </p> */}
-    </>
   );
 }
-
-export default TodoListFilters;

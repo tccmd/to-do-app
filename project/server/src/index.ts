@@ -18,11 +18,14 @@ async function main() {
   app.use(
     cors({
       origin: [
-        'http://localhost:3000', // 클라이언트 주소 추가
-        'https://studio.apollographql.com', // Apollo Studio 허용
-        // 추가 허용할 주소들
+        // 'http://localhost:3000', // 클라이언트 주소 추가
+        // 'https://studio.apollographql.com', // Apollo Studio 허용
+        // // 추가 허용할 주소들
+        // 'https://todo-server-coral-iota.vercel.app',
+        // 'https://jsfiddle.net',
+        '*',
       ],
-      credentials: true,
+      // credentials: true,
     }),
   );
 
@@ -30,7 +33,10 @@ async function main() {
     schema: await buildSchema({
       resolvers: [TodoResolver],
     }),
+    introspection: true,
     plugins: [ApolloServerPluginLandingPageLocalDefault()],
+    persistedQueries: false,
+    cache: 'bounded',
   });
 
   await apolloServer.start();
@@ -39,19 +45,14 @@ async function main() {
     cors: {
       // 아폴로 스튜디오를 GraphQL 테스트 용도로 활용하기 위해 https://studio.apollographql.com도 허용하도록 구성
       origin: [
-        'http://localhost:3000',
-        'https://studio.apollographql.com',
-        'http://ghibli-graphql-cli-bucket.s3-website.ap-northeast-2.amazonaws.com',
-        'http://ghibli-graphql-cli-vercel-bucket.s3-website.ap-northeast-2.amazonaws.com',
-        'https://web-ashy-alpha.vercel.app',
-        'https://tccmd.site',
-        'https://www.tccmd.site',
-        'https://ghibli.tccmd.site',
+        // 'http://localhost:3000',
+        // 'https://studio.apollographql.com',
+        // 'https://todo-server-coral-iota.vercel.app',
+        '*',
       ],
-      credentials: true,
+      // credentials: true,
     },
   });
-  
 
   const httpServer = http.createServer(app);
 

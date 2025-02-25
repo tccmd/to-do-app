@@ -1,0 +1,10 @@
+query Todos {
+  Todos {
+    id
+    text
+    isCompleted
+    priority
+    createdAt
+    updatedAt
+  }
+}
