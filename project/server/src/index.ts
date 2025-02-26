@@ -1,6 +1,5 @@
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
@@ -14,20 +13,20 @@ async function main() {
   await createDB();
   const app = express();
 
-  // CORS 설정 (SSE 경로에만 적용)
-  app.use(
-    cors({
-      origin: [
-        'http://localhost:3000', // 클라이언트 주소 추가
-        'https://studio.apollographql.com', // Apollo Studio 허용
-        // 추가 허용할 주소들
-        // 'https://todo-server-coral-iota.vercel.app',
-        'https://jsfiddle.net',
-        'https://todo-web-nu.vercel.app',
-      ],
-      // credentials: true,
-    }),
-  );
+  // // CORS 설정 (SSE 경로에만 적용)
+  // app.use(
+  //   cors({
+  //     origin: [
+  //       'http://localhost:3000', // 클라이언트 주소 추가
+  //       'https://studio.apollographql.com', // Apollo Studio 허용
+  //       // 추가 허용할 주소들
+  //       // 'https://todo-server-coral-iota.vercel.app',
+  //       'https://jsfiddle.net',
+  //       'https://todo-web-nu.vercel.app',
+  //     ],
+  //     credentials: true,
+  //   }),
+  // );
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
@@ -39,6 +38,11 @@ async function main() {
     cache: 'bounded',
   });
 
+  app.get('/', (req, res) => {
+    res.status(200).send(); // for health check
+    console.log('success');
+  });
+
   await apolloServer.start();
   apolloServer.applyMiddleware({
     app,
@@ -48,10 +52,9 @@ async function main() {
         'http://localhost:3000',
         'https://studio.apollographql.com',
         // 'https://todo-server-coral-iota.vercel.app',
-        'https://jsfiddle.net',
         'https://todo-web-nu.vercel.app',
       ],
-      // credentials: true,
+      credentials: true,
     },
   });
 

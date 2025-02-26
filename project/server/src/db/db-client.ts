@@ -18,6 +18,7 @@ export async function createDB() {
     logging: !(process.env.NODE_ENV === 'production'),
     synchronize: !(process.env.NODE_ENV === 'production'), // entities에 명시된 데이터 모델들을 DB에 자동으로 동기화
     entities: [Todo], // entities 폴더의 모든 데이터 모델이 위치해야 한다.
+    extra: 80000,
   });
 
   AppDataSource.initialize()

@@ -7,8 +7,8 @@ import './css/style.css';
 import chakraTheme from './theme';
 
 const apolloClient = new ApolloClient({
-  // uri: `${process.env.REACT_APP_API_HOST}/graphql`,
-  uri: 'https://todo-server-coral-iota.vercel.app/graphql',
+  uri: `${process.env.REACT_APP_API_HOST}/graphql`,
+  // uri: 'https://todo-server-coral-iota.vercel.app/graphql',
   cache: new InMemoryCache(),
 });
 
