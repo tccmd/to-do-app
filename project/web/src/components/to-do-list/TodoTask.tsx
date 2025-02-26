@@ -14,12 +14,17 @@ export function TodoTask(): React.ReactElement {
   const [todoList, setTodoList] = useRecoilState(todoListState);
 
   useEffect(() => {
-    if (data && data.todos) {
+    if (loading) console.log('로딩중');
+    if (!loading && data && data.todos) {
       setTodoList(data.todos);
       console.log('데이터'); // 디버깅
       console.log(data); // 디버깅
+    } else {
+      console.log('???')
     }
-  }, [data, setTodoList, loading]);
+    if (data && data.todos) console.log(data.todos);
+    if(error) console.log(error)
+  }, [data]);
 
   return (
     <Box p={8} bg={mainBgColor} h="100%">
