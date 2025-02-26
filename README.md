@@ -45,3 +45,7 @@
 ### General link
 
 - [🙋‍♂️ Visit To do App](https://todo-web-nu.vercel.app)
+
+<br/>
+
+\*_vercel의 서버리스 환경의 cold start로 인해 데이터에 지장이 있을 수 있습니다. postman, curl등으로 cold start를 깨울 수 있습니다._
