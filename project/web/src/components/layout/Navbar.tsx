@@ -1,5 +1,5 @@
 import { Stack } from '@chakra-ui/react';
-import { ColorModeSwitcher } from '../../ColorModeSwitcher';
+import { ColorModeSwitcher } from '../othder-component/ColorModeSwitcher';
 import TodoItemCreator from '../to-do-list/TodoItemCreator';
 
 export default function Navbar(): React.ReactElement {

@@ -36,10 +36,10 @@ export default function FilterButton() {
   }, []);
   
   return (
-    <div className="container sort">
-      <div className="filter-button" onClick={toggleMenu}>
+    <div className="container sort" aria-label="Todo 필터 버튼" tabIndex={0}>
+      <button className="filter-button" onClick={toggleMenu}>
         <FilterIcon />
-      </div>
+      </button>
       <div className={`menu ${menuOpen ? 'active' : ''}`}>
         <ul>
           <li onClick={() => changeFilter('Show All')}>Show All</li>

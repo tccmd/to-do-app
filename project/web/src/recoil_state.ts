@@ -46,6 +46,24 @@ const filteredAndSortedTodoListState = selector<TodoItem[]>({
   },
 });
 
+// 검색어 상태를 관리하는 atom
+const todoListSearchState = atom<string>({
+  key: 'todoListSearchState',
+  default: '', // 초기값: "" (모든 할 일 표시)
+});
+
+const searchedTodoListState = selector<TodoItem[]>({
+  key: 'searchedTodoListState',
+  get: ({ get }) => {
+    const search = get(todoListSearchState); // 현재 검색어 상태
+    const list = get(todoListState); // 할 일 목록
+
+    const searchedList = list.filter((item) => item.text.includes(search))
+    return searchedList;
+  },
+});
+
+
 // 할 일 목록의 통계를 계산하는 selector
 const todoListStatsState = selector<TodoStats>({
   key: 'todoListStatsState',
@@ -70,9 +88,9 @@ const todoListStatsState = selector<TodoStats>({
 });
 
 export {
-  filteredAndSortedTodoListState,
-  todoListFilterState, todoListPriorityState,
-  todoListState,
+  filteredAndSortedTodoListState, searchedTodoListState, todoListFilterState,
+  todoListPriorityState,
+  todoListSearchState, todoListState,
   todoListStatsState
 };
 

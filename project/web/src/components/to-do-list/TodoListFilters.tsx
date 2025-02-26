@@ -1,69 +1,42 @@
-import { Box, useColorModeValue, useRadio, useRadioGroup, VStack } from '@chakra-ui/react';
+import { Button, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { todoListFilterState } from '../../recoil_state';
-
-interface RadioCardProps {
-  children: React.ReactNode;
-}
-
-function RadioCard({ children, ...props }: RadioCardProps): React.ReactElement {
-  const checkedBgColor = useColorModeValue('gray.800', 'white');
-  const checkedTextColor = useColorModeValue('white', 'gray.800');
-
-  const { getInputProps, getRadioProps } = useRadio(props);
-
-  const input = getInputProps();
-  const checkbox = getRadioProps();
-
-  return (
-    <Box as="label" width="100%">
-      <input {...input} />
-      <Box
-        {...checkbox}
-        cursor="pointer"
-        borderRadius="xl"
-        _checked={{
-          bg: checkedBgColor,
-          color: checkedTextColor,
-          borderColor: 'teal.600',
-        }}
-        px={5}
-        py={3}
-        fontWeight={600}
-      >
-        {children}
-      </Box>
-    </Box>
-  );
-}
+import { ShowAllIcon, ShowCompletedIcon, ShowUncompletedIcon, } from '../othder-component/Icon';
 
 export default function TodoListFilters(): React.ReactElement {
   const [filter, setFilter] = useRecoilState(todoListFilterState);
 
-  const options: string[] = ['Show All', 'Show Completed', 'Show Uncompleted'];
-
-  const { getRootProps, getRadioProps } = useRadioGroup({
-    name: 'framework',
-    defaultValue: localStorage.getItem('todoFilter') || filter,
-    onChange: (value) => {
-      setFilter(value);
-      localStorage.setItem('todoFilter', value);
-    },
-  });
-
-  const group = getRootProps();
+  const options: Record<string, React.ReactNode> = {
+    'Show All': <ShowAllIcon />,
+    'Show Completed': <ShowCompletedIcon />,
+    'Show Uncompleted': <ShowUncompletedIcon />,
+  };
 
   return (
-      <VStack {...group} p={4}>
-        {options.map((value) => {
-          const radio = getRadioProps({ value });
-          return (
-            <RadioCard key={value} {...radio}>
-              {value}
-            </RadioCard>
-          );
-        })}
-      </VStack>
+    <VStack p={4}>
+      {Object.entries(options).map(([key, value]) => {
+        return (
+          <Button
+            variant="unstyled"
+            className={`aside-filter-button button ${key === filter ? 'active' : ''}`}
+            onClick={() => {
+              setFilter(key);
+              localStorage.setItem('todoFilter', key);
+            }}
+            display="flex"
+            justifyContent="start"
+            gap={4}
+            key={key}
+            role="button"
+            tabIndex={0}
+            px={4}
+          >
+            {value}
+            {key}
+          </Button>
+        );
+      })}
+    </VStack>
   );
 }

@@ -25,20 +25,15 @@ export type AddTodoInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  AddTodo: Todo;
-  UpdateTodo: Scalars['Boolean']['output'];
+  addTodo: Todo;
   deleteTodo: Scalars['Boolean']['output'];
   updatePriority: Scalars['Boolean']['output'];
+  updateTodo: Scalars['Boolean']['output'];
 };
 
 
 export type MutationAddTodoArgs = {
   todoTextInput: AddTodoInput;
-};
-
-
-export type MutationUpdateTodoArgs = {
-  UpdateTodoInput: UpdateTodoInput;
 };
 
 
@@ -52,10 +47,15 @@ export type MutationUpdatePriorityArgs = {
   priority: Scalars['Float']['input'];
 };
 
+
+export type MutationUpdateTodoArgs = {
+  updateTodoInput: UpdateTodoInput;
+};
+
 export type Query = {
   __typename?: 'Query';
-  Todo: Todo;
-  Todos: Array<Todo>;
+  todo: Todo;
+  todos: Array<Todo>;
 };
 
 
@@ -89,7 +89,7 @@ export type AddTodoMutationVariables = Exact<{
 }>;
 
 
-export type AddTodoMutation = { __typename?: 'Mutation', AddTodo: { __typename?: 'Todo', id: number, text: string, isCompleted: boolean, priority: number, createdAt: string } };
+export type AddTodoMutation = { __typename?: 'Mutation', addTodo: { __typename?: 'Todo', id: number, text: string, priority: number, isCompleted: boolean, createdAt: string } };
 
 export type DeleteTodoMutationVariables = Exact<{
   deleteTodoId: Scalars['Float']['input'];
@@ -111,28 +111,28 @@ export type UpdateTodoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTodoMutation = { __typename?: 'Mutation', UpdateTodo: boolean };
+export type UpdateTodoMutation = { __typename?: 'Mutation', updateTodo: boolean };
 
 export type TodoQueryVariables = Exact<{
   todoId: Scalars['Float']['input'];
 }>;
 
 
-export type TodoQuery = { __typename?: 'Query', Todo: { __typename?: 'Todo', id: number, text: string, isCompleted: boolean, priority: number, createdAt: string, updatedAt: string } };
+export type TodoQuery = { __typename?: 'Query', todo: { __typename?: 'Todo', id: number, text: string, isCompleted: boolean, priority: number, createdAt: string } };
 
 export type TodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TodosQuery = { __typename?: 'Query', Todos: Array<{ __typename?: 'Todo', id: number, text: string, isCompleted: boolean, priority: number, createdAt: string, updatedAt: string }> };
+export type TodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: number, text: string, isCompleted: boolean, priority: number, createdAt: string }> };
 
 
 export const AddTodoDocument = gql`
     mutation AddTodo($todoTextInput: AddTodoInput!) {
-  AddTodo(todoTextInput: $todoTextInput) {
+  addTodo(todoTextInput: $todoTextInput) {
     id
     text
-    isCompleted
     priority
+    isCompleted
     createdAt
   }
 }
@@ -228,7 +228,7 @@ export type UpdatePriorityMutationResult = Apollo.MutationResult<UpdatePriorityM
 export type UpdatePriorityMutationOptions = Apollo.BaseMutationOptions<UpdatePriorityMutation, UpdatePriorityMutationVariables>;
 export const UpdateTodoDocument = gql`
     mutation UpdateTodo($updateTodoInput: UpdateTodoInput!) {
-  UpdateTodo(UpdateTodoInput: $updateTodoInput)
+  updateTodo(updateTodoInput: $updateTodoInput)
 }
     `;
 export type UpdateTodoMutationFn = Apollo.MutationFunction<UpdateTodoMutation, UpdateTodoMutationVariables>;
@@ -259,13 +259,12 @@ export type UpdateTodoMutationResult = Apollo.MutationResult<UpdateTodoMutation>
 export type UpdateTodoMutationOptions = Apollo.BaseMutationOptions<UpdateTodoMutation, UpdateTodoMutationVariables>;
 export const TodoDocument = gql`
     query Todo($todoId: Float!) {
-  Todo(id: $todoId) {
+  todo(id: $todoId) {
     id
     text
     isCompleted
     priority
     createdAt
-    updatedAt
   }
 }
     `;
@@ -304,13 +303,12 @@ export type TodoSuspenseQueryHookResult = ReturnType<typeof useTodoSuspenseQuery
 export type TodoQueryResult = Apollo.QueryResult<TodoQuery, TodoQueryVariables>;
 export const TodosDocument = gql`
     query Todos {
-  Todos {
+  todos {
     id
     text
     isCompleted
     priority
     createdAt
-    updatedAt
   }
 }
     `;

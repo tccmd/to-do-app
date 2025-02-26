@@ -1,16 +1,20 @@
-import { Card, CardBody, Skeleton, StackDivider, VStack } from '@chakra-ui/react';
+import { Card, CardBody, StackDivider, useColorModeValue, VStack } from '@chakra-ui/react';
 import { Reorder } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useUpdatePriorityMutation } from '../../generated/graphql';
-import { filteredAndSortedTodoListState } from '../../recoil_state';
+import { filteredAndSortedTodoListState, searchedTodoListState, todoListSearchState } from '../../recoil_state';
+import NoTesks from '../othder-component/NoTesks';
 import TodoItem from './TodoItem';
 import { TodoItem as TodoItemType } from './types';
 
-export default function TodoList({ loading }: { loading: boolean }): React.ReactElement {
+export default function TodoList(): React.ReactElement {
   const filteredAndSortedTodoList = useRecoilValue(filteredAndSortedTodoListState);
   const [todoList, setTodoList] = useState(filteredAndSortedTodoList);
+  const [search, setSearch] = useRecoilState(todoListSearchState);
+  const searchedTodoList = useRecoilValue(searchedTodoListState);
   const [updatePriorityMutation] = useUpdatePriorityMutation();
+  const borderColor = useColorModeValue('gray.200','gray.600');
 
   useEffect(() => {
     setTodoList(filteredAndSortedTodoList);
@@ -22,7 +26,7 @@ export default function TodoList({ loading }: { loading: boolean }): React.React
     newList.forEach((todo: TodoItemType, index: number) => {
       updatePriorityMutation({
         variables: {
-          updatePriorityId: todo.id, 
+          updatePriorityId: todo.id,
           priority: index + 1,
         },
         update: (cache) => {
@@ -45,17 +49,15 @@ export default function TodoList({ loading }: { loading: boolean }): React.React
     <Card>
       <CardBody p="none">
         {todoList.length === 0 ? (
-          <Skeleton></Skeleton>
+          <NoTesks />
         ) : (
-          <Skeleton isLoaded={!loading}>
-            <Reorder.Group axis="y" onReorder={handleReorder} values={todoList}>
-              <VStack divider={<StackDivider borderColor="gray.200" />} align="stretch" p="none">
-                {todoList.map((todoItem: TodoItemType) => (
-                  <TodoItem key={todoItem.id} item={todoItem} />
-                ))}{' '}
-              </VStack>
-            </Reorder.Group>
-          </Skeleton>
+          <Reorder.Group axis="y" onReorder={handleReorder} values={todoList}>
+            <VStack divider={<StackDivider borderColor={borderColor} />} align="stretch" p="none">
+              {search === ''
+                ? todoList.map((todoItem: TodoItemType) => <TodoItem key={todoItem.id} item={todoItem} />)
+                : searchedTodoList.map((todoItem: TodoItemType) => <TodoItem key={todoItem.id} item={todoItem} />)}
+            </VStack>
+          </Reorder.Group>
         )}
       </CardBody>
     </Card>

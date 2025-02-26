@@ -1,9 +1,9 @@
 mutation AddTodo($todoTextInput: AddTodoInput!) {
-  AddTodo(todoTextInput: $todoTextInput) {
+  addTodo(todoTextInput: $todoTextInput) {
     id
     text
-    isCompleted
     priority
+    isCompleted
     createdAt
   }
 }

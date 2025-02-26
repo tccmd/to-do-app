@@ -25,9 +25,9 @@ export default function ProgressOverview(): React.ReactElement {
             size="md"
             value={formattedPercentCompleted}
             borderRadius="xl"
-            // sx={{
-            //   transition: 'width 2s ease-out',
-            // }}
+            sx={{
+              transition: 'width 2s ease-out !imporant',
+            }}
           />
         </Stack>
         <SimpleGrid columns={3} spacing={4}>

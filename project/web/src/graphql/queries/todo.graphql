@@ -1,10 +1,9 @@
 query Todo($todoId: Float!) {
-  Todo(id: $todoId) {
+  todo(id: $todoId) {
     id
     text
     isCompleted
     priority
     createdAt
-    updatedAt
   }
 }

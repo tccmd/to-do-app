@@ -1,10 +1,9 @@
 query Todos {
-  Todos {
+  todos {
     id
     text
     isCompleted
     priority
     createdAt
-    updatedAt
   }
 }

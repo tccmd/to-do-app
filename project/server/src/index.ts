@@ -18,12 +18,12 @@ async function main() {
   app.use(
     cors({
       origin: [
-        // 'http://localhost:3000', // 클라이언트 주소 추가
-        // 'https://studio.apollographql.com', // Apollo Studio 허용
-        // // 추가 허용할 주소들
+        'http://localhost:3000', // 클라이언트 주소 추가
+        'https://studio.apollographql.com', // Apollo Studio 허용
+        // 추가 허용할 주소들
         // 'https://todo-server-coral-iota.vercel.app',
-        // 'https://jsfiddle.net',
-        '*',
+        'https://jsfiddle.net',
+        'https://todo-web-nu.vercel.app',
       ],
       // credentials: true,
     }),
@@ -45,10 +45,11 @@ async function main() {
     cors: {
       // 아폴로 스튜디오를 GraphQL 테스트 용도로 활용하기 위해 https://studio.apollographql.com도 허용하도록 구성
       origin: [
-        // 'http://localhost:3000',
-        // 'https://studio.apollographql.com',
+        'http://localhost:3000',
+        'https://studio.apollographql.com',
         // 'https://todo-server-coral-iota.vercel.app',
-        '*',
+        'https://jsfiddle.net',
+        'https://todo-web-nu.vercel.app',
       ],
       // credentials: true,
     },

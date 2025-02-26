@@ -1,25 +1,25 @@
+import { DeleteIcon, DragHandleIcon } from '@chakra-ui/icons';
 import {
+  Button,
   Checkbox,
   Editable,
   EditableInput,
   EditablePreview,
   Flex,
+  IconButton,
+  Skeleton,
+  Spinner,
   Text,
-  useColorModeValue,
-  Wrap,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { Reorder, useDragControls, useMotionValue } from 'framer-motion';
-import { useRecoilState } from 'recoil';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../generated/graphql';
-import { todoListState } from '../../recoil_state';
-import { ReorderIcon } from '../othder-component/Icon';
 import { useRaisedShadow } from '../othder-component/use-raised-shadow';
 import { TodoItem as TodoItemType } from './types';
 
 export default function TodoItem({ item }: { item: TodoItemType }): React.ReactElement {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
-  const index = todoList.findIndex((listItem) => listItem.id === item.id);
   const hoverColor = useColorModeValue('gray.50', 'gray.800');
+  const bgColor = useColorModeValue('white', 'gray.800');
   const [updateMutation, { loading: updateLoading }] = useUpdateTodoMutation();
   const [deleteMutation, { loading: deleteLoading }] = useDeleteTodoMutation();
 
@@ -84,35 +84,56 @@ export default function TodoItem({ item }: { item: TodoItemType }): React.ReactE
         _hover={{
           bg: hoverColor,
         }}
+        bg={bgColor}
         px={6}
         py={4}
         width="100%"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Flex gap={4}>
-          <Checkbox
-            size="lg"
-            type="checkbox"
-            isChecked={item.isCompleted}
-            onChange={toggleItemCompletion}
-            colorScheme="black"
-          />
+        <Flex gap={4} alignItems="center">
+          <Skeleton isLoaded={!updateLoading}>
+            <Checkbox
+              aria-label="할 일 완료"
+              size="lg"
+              type="checkbox"
+              isChecked={item.isCompleted}
+              onChange={toggleItemCompletion}
+              colorScheme="black"
+            />
+          </Skeleton>
           <Flex flexDirection="column">
-            <Editable defaultValue={item.text} fontWeight="600">
+            <Editable aria-label="할 일, 할 일 수정" defaultValue={item.text} fontWeight="600">
               <EditablePreview />
               <EditableInput onChange={editItemText} />
             </Editable>
             <Text color="#6B7280">{formattedDate}</Text>
           </Flex>
         </Flex>
-        <Wrap>
-          <span>{item.priority}</span>
-          <button type="button" onClick={deleteItem}>
-            <Text color="#6B7280">X</Text>
-          </button>
-          <ReorderIcon dragControls={dragControls} />
-        </Wrap>
+        <Flex>
+          {/* <span>{item.priority}</span> */}
+          {deleteLoading ? (
+            <Button variant="unstyled" aria-label="할 일 삭제 중">
+              <Spinner size="sm" />
+            </Button>
+          ) : (
+            <IconButton
+              isRound={true}
+              colorScheme="whiteAlpha"
+              aria-label="할 일 삭제"
+              icon={<DeleteIcon />}
+              onClick={deleteItem}
+              variant="customIconButton"
+            />
+          )}
+          <IconButton
+            icon={<DragHandleIcon />}
+            aria-label="드래그 핸들"
+            onPointerDown={(event) => dragControls.start(event)}
+            variant="customIconButton"
+          />
+          {/* <ReorderIcon dragControls={dragControls} /> */}
+        </Flex>
       </Flex>
     </Reorder.Item>
   );
