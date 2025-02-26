@@ -105,13 +105,18 @@ li {
   list-style: none;
   padding: 10px;
   margin: 0;
+  user-select: none;
 }
 .menu ul li {
   padding: 8px;
   cursor: pointer;
+  border-radius: 10%;
 }
 .menu ul li:hover {
   background-color: var(--chakra-colors-blackAlpha-50);
+}
+.menu ul button {
+  text-align: start;
 }
 
 .aside-filter-button {

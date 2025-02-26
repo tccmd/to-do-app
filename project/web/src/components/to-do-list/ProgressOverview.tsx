@@ -10,7 +10,7 @@ export default function ProgressOverview(): React.ReactElement {
   const formattedPercentCompleted = Math.round(percentCompleted * 100);
 
   return (
-    <Card>
+    <Card tabIndex={0}>
       <CardBody>
         <Text fontSize="2xl" fontWeight={600} pb={4}>
           Progress Overview

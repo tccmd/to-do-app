@@ -26,6 +26,7 @@ hr
 // chakra VStack 디바이더 custom
 .css-15nvrth, .css-140u4do
   margin: 0 !important
+
 // framer motion 리스트 드래그 style
 ul 
   list-style: none
@@ -44,36 +45,12 @@ li
     cursor: grab
     &:active
       cursor: grabbing
-  
-// .background 
-//   position: absolute
-//   top: 0
-//   left: 0
-//   bottom: 0
-//   width: 300px
-//   background-color: pink !important
-// .refresh 
-//   padding: 10px
-//   position: absolute
-//   background: rgba(0, 0, 0, 0.4)
-//   border-radius: 10px
-//   width: 20px
-//   height: 20px
-//   top: 10px
-//   right: 10px
-//   display: flex
-//   justify-content: center
-//   align-items: center
-//   cursor: pointer
-// .grap 
-//   cursor: grab
 
 // 필터 버튼
 @mixin button-click-effect 
   transition: transform 0.2s ease box-shadow 0.2s ease
   &:active 
     transform: scale(0.98)
-    // box-shadow: 0 0.5rem 1rem rgba(0 0 0 0.25) 0 0.375rem 0.375rem rgba(0 0 0 0.22)
   &:hover 
     background-color: #333
 .container
@@ -87,15 +64,10 @@ li
     background-color: #000
     border-radius: 50%
     color: #fff
-    // box-shadow: 0 0.875rem 1.75rem rgba(0, 0, 0, 0.25) 0 0.625rem 0.625rem rgba(0, 0, 0, 0.22)
     display: flex
     justify-content: center
     align-items: center
 .button
-    // @include button-click-effect
-    // position: absolute
-    // left: 0px
-    // top: 0px
     width: 223px
     height: 36px
     border-radius: 8px
@@ -107,29 +79,31 @@ li
     gap: 0px 0px
     flex-wrap: wrap
     align-content: center
-    // background: #000000
-	
 .menu 
   position: absolute
-  bottom: 60px  // 버튼 위에 표시
+  bottom: 60px
   right: 0
   background: var(--chakra-colors-chakra-body-bg) 
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
   border-radius: 8px
-  display: none // 초기에는 숨김
+  display: none 
   &.active 
-    display: block // active 클래스가 있을 때만 표시
+    display: block
   ul 
     list-style: none
     padding: 10px
     margin: 0
+    user-select: none
     li 
       padding: 8px
       cursor: pointer
+      border-radius: 10%
       &:hover 
         background-color: var(--chakra-colors-blackAlpha-50)
+    button
+      // background-color: green !important
+      text-align: start
 .aside-filter-button
-  // background-color: var(--chakra-colors-chakra-body-text)
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out
   opacity: 0.8
   transform: translateY(5px)

@@ -34,19 +34,29 @@ export default function FilterButton() {
     if (savedFilter) setFilter(savedFilter);
     if (savedSort) setSort(savedSort);
   }, []);
-  
+
   return (
-    <div className="container sort" aria-label="Todo 필터 버튼" tabIndex={0}>
-      <button className="filter-button" onClick={toggleMenu}>
+    <div className="container sort" aria-label="Todo 필터 버튼">
+      <button className="filter-button" onClick={toggleMenu} aria-expanded={menuOpen} aria-controls="filter-menu">
         <FilterIcon />
       </button>
-      <div className={`menu ${menuOpen ? 'active' : ''}`}>
+      <div className={`menu ${menuOpen ? 'active' : ''}`} id="filter-menu">
         <ul>
-          <li onClick={() => changeFilter('Show All')}>Show All</li>
-          <li onClick={() => changeFilter('Show Completed')}>Show Completed</li>
-          <li onClick={() => changeFilter('Show Uncompleted')}>Show Uncompleted</li>
-          <li onClick={() => changeSort('우선순')}>우선순</li>
-          <li onClick={() => changeSort('우선역순')}>우선역순</li>
+          <li>
+            <button onClick={() => changeFilter('Show All')}>Show All</button>
+          </li>
+          <li>
+            <button onClick={() => changeFilter('Show Completed')}>Show Completed</button>
+          </li>
+          <li>
+            <button onClick={() => changeFilter('Show Uncompleted')}>Show Uncompleted</button>
+          </li>
+          <li>
+            <button onClick={() => changeSort('우선순')}>우선순</button>
+          </li>
+          <li>
+            <button onClick={() => changeSort('우선역순')}>우선역순</button>
+          </li>
         </ul>
       </div>
     </div>
