@@ -1,20 +1,20 @@
 import { DeleteIcon, DragHandleIcon } from '@chakra-ui/icons';
 import {
-  Button,
-  Checkbox,
-  Editable,
-  EditableInput,
-  EditablePreview,
-  Flex,
-  IconButton,
-  Skeleton,
-  Spinner,
-  Text,
-  useColorModeValue
+    Button,
+    Checkbox,
+    Editable,
+    EditableInput,
+    EditablePreview,
+    Flex,
+    IconButton,
+    Skeleton,
+    Spinner,
+    Text,
+    useColorModeValue
 } from '@chakra-ui/react';
 import { Reorder, useDragControls, useMotionValue } from 'framer-motion';
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../generated/graphql';
-import { useRaisedShadow } from '../othder-component/use-raised-shadow';
+import { useRaisedShadow } from '../other-component/use-raised-shadow';
 import { TodoItem as TodoItemType } from './types';
 
 export default function TodoItem({ item }: { item: TodoItemType }): React.ReactElement {

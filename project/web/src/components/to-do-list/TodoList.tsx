@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useUpdatePriorityMutation } from '../../generated/graphql';
 import { filteredAndSortedTodoListState, searchedTodoListState, todoListSearchState } from '../../recoil_state';
-import NoTesks from '../othder-component/NoTesks';
+import NoTesks from '../other-component/NoTesks';
 import TodoItem from './TodoItem';
 import { TodoItem as TodoItemType } from './types';
 

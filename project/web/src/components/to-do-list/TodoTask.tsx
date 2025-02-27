@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useTodosQuery } from '../../generated/graphql';
 import { todoListState } from '../../recoil_state';
-import FilterButton from '../othder-component/FilterButton';
+import FilterButton from '../other-component/FilterButton';
 import ProgressOverview from './ProgressOverview';
 import TodoList from './TodoList';
 

@@ -58,7 +58,7 @@ const searchedTodoListState = selector<TodoItem[]>({
     const search = get(todoListSearchState); // 현재 검색어 상태
     const list = get(todoListState); // 할 일 목록
 
-    const searchedList = list.filter((item) => item.text.includes(search))
+    const searchedList = list.filter((item) => item.text.toLowerCase().includes(search.toLowerCase()));
     return searchedList;
   },
 });
@@ -72,7 +72,6 @@ const todoListStatsState = selector<TodoStats>({
     const totalNum = todoList.length; // 전체 할 일 개수
     const totalCompletedNum = todoList.filter((item) => item.isCompleted).length; // 완료된 할 일 개수
     let allText = ''; // 미완료된 모든 할 일 텍스트를 담을 변수
-    // eslint-disable-next-line no-return-assign
     todoList.filter((item) => !item.isCompleted).map((item) => (allText = `${allText} ${item.text}`));
     const totalUncompletedNum = totalNum - totalCompletedNum; // 미완료된 할 일 개수
     const percentCompleted = totalNum === 0 ? 0 : totalCompletedNum / totalNum; // 완료된 비율 (0 ~ 1)

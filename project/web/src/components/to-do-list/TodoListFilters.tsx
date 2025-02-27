@@ -2,7 +2,7 @@ import { Button, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { todoListFilterState } from '../../recoil_state';
-import { ShowAllIcon, ShowCompletedIcon, ShowUncompletedIcon, } from '../othder-component/Icon';
+import { ShowAllIcon, ShowCompletedIcon, ShowUncompletedIcon, } from '../other-component/Icon';
 
 export default function TodoListFilters(): React.ReactElement {
   const [filter, setFilter] = useRecoilState(todoListFilterState);

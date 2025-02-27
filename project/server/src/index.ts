@@ -8,8 +8,9 @@ import { buildSchema } from 'type-graphql';
 import { createDB } from './db/db-client';
 import { TodoResolver } from './resolvers/Todo';
 
+dotenv.config();
+
 async function main() {
-  dotenv.config();
   await createDB();
   const app = express();
 
@@ -32,7 +33,7 @@ async function main() {
     schema: await buildSchema({
       resolvers: [TodoResolver],
     }),
-    introspection: true,
+    // introspection: true,
     plugins: [ApolloServerPluginLandingPageLocalDefault()],
     persistedQueries: false,
     cache: 'bounded',
