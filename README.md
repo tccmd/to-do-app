@@ -54,3 +54,7 @@
 
 - `extra` 값을 10000ms로 설정
 - Vercel에서 서버리스 Cold Start 문제로 인해 초기 연결이 실패할 수 있음
+
+### ❗ "DataSource is not set for this entity." 오류 해결
+
+- TypeOrm 버전 다운
