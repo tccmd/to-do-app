@@ -15,7 +15,7 @@
     "mysql2": "^3.12.0",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.2",
-    "typeorm": "0.3.11"
+    "typeorm": "^0.2.37"
   },
   "scripts": {
     "start": "ts-node src/index.ts",

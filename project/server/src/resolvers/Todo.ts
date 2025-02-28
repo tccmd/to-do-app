@@ -29,7 +29,7 @@ export class TodoResolver {
   }
 
   @Query(() => Todo)
-  async todo(@Arg('id') id: number): Promise<Todo | null> {
+  async todo(@Arg('id') id: number): Promise<Todo | undefined> {
     return Todo.findOne({ where: { id } });
   }
 
